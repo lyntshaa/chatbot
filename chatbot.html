@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Site Chatbot</title>
+    <style>
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: white;
+            display: none;
+        }
+        .chat-header {
+            padding: 10px;
+            background: #4285f4;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .chat-body {
+            height: 300px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4285f4;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-button" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+    </div>
+    
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            MRANTI Data Chatbot
+        </div>
+        <div class="chat-body" id="chatBody">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." 
+                   onkeypress="if(event.keyCode==13) sendMessage()">
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+    <script>
+        function toggleChat() {
+            const container = document.getElementById('chatContainer');
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                appendMessage('user', message);
+                processMessage(message);
+                input.value = '';
+            }
+        }
+
+        function appendMessage(sender, message) {
+            const chatBody = document.getElementById('chatBody');
+            const messageDiv = document.createElement('div');
+            messageDiv.style.margin = '10px';
+            messageDiv.style.padding = '10px';
+            messageDiv.style.borderRadius = '10px';
+            messageDiv.style.maxWidth = '70%';
+            
+            if (sender === 'user') {
+                messageDiv.style.marginLeft = 'auto';
+                messageDiv.style.background = '#e3f2fd';
+            } else {
+                messageDiv.style.background = '#f5f5f5';
+            }
+            
+            messageDiv.textContent = message;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function processMessage(message) {
+            // Simple response logic - can be expanded based on needs
+            let response = "Thanks for your message. This is a demo chatbot. ";
+            
+            if (message.toLowerCase().includes('data')) {
+                response += "You can find our data resources on the MRANTI Data site.";
+            } else if (message.toLowerCase().includes('help')) {
+                response += "How can I assist you with MRANTI's data services?";
+            } else {
+                response += "For specific information, please browse through our site or contact our team.";
+            }
+            
+            setTimeout(() => appendMessage('bot', response), 500);
+        }
+    </script>
+</body>
+</html>
